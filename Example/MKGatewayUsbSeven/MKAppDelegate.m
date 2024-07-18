@@ -8,11 +8,19 @@
 
 #import "MKAppDelegate.h"
 
+#import "MKCOTestController.h"
+
 @implementation MKAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    _window = [[UIWindow alloc] init];
+    _window.backgroundColor = [UIColor whiteColor];
+    MKCOTestController *vc = [[MKCOTestController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    _window.rootViewController = nav;
+    [_window makeKeyAndVisible];
+    
     return YES;
 }
 

@@ -1,0 +1,6 @@
+framework module MKGatewayUsbSeven {
+  umbrella header "MKGatewayUsbSeven-umbrella.h"
+
+  export *
+  module * { export * }
+}
