@@ -16,6 +16,7 @@
 #import "MKBaseTableView.h"
 #import "UIView+MKAdd.h"
 #import "UITableView+MKAdd.h"
+#import "NSString+MKAdd.h"
 
 #import "MKHudManager.h"
 #import "MKTextSwitchCell.h"
@@ -193,13 +194,17 @@ MKFilterEditSectionHeaderViewDelegate>
 }
 
 - (void)saveDataToDevice {
-    [[MKHudManager share] showHUDWithTitle:@"Config..." inView:self.view isPenetration:NO];
-    @weakify(self);
     NSMutableArray *codeList = [NSMutableArray array];
     for (NSInteger i = 0; i < self.section1List.count; i ++) {
         MKTextFieldCellModel *cellModel = self.section1List[i];
-        [codeList addObject:SafeStr(cellModel.textFieldValue)];
+        if (cellModel.textFieldValue.length != 4 || ![cellModel.textFieldValue regularExpressions:isHexadecimal]) {
+            [self.view showCentralToast:@"Para Error"];
+            return;
+        }
+        [codeList addObject:cellModel.textFieldValue];
     }
+    [[MKHudManager share] showHUDWithTitle:@"Config..." inView:self.view isPenetration:NO];
+    @weakify(self);
     [self.dataModel configDataWithCodeList:codeList sucBlock:^{
         @strongify(self);
         [[MKHudManager share] hide];

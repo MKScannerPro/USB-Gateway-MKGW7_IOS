@@ -603,6 +603,15 @@ NSString *const mk_co_contentKey = @"mk_co_contentKey";
     }else if ([cmd isEqualToString:@"32"]) {
         //配置Client key file
         operationID = mk_co_taskConfigClientPrivateKeyOperation;
+    }else if ([cmd isEqualToString:@"48"]) {
+        //配置WIFI CA证书
+        operationID = mk_co_taskConfigWIFICAFileOperation;
+    }else if ([cmd isEqualToString:@"49"]) {
+        //配置WIFI设备证书
+        operationID = mk_co_taskConfigWIFIClientCertOperation;
+    }else if ([cmd isEqualToString:@"4a"]) {
+        //配置WIFI私钥
+        operationID = mk_co_taskConfigWIFIClientPrivateKeyOperation;
     }else if ([cmd isEqualToString:@"67"]) {
         //配置Adv Name过滤规则
         operationID = mk_co_taskConfigFilterAdvNameListOperation;

@@ -2549,6 +2549,13 @@
         [self operationFailedBlockWithMsg:@"Params Error" failedBlock:failedBlock];
         return;
     }
+    for (NSInteger i = 0; i < codeList.count; i ++) {
+        NSString *tempString = codeList[i];
+        if (tempString.length != 4 || ![tempString regularExpressions:isHexadecimal]) {
+            [self operationFailedBlockWithMsg:@"Params error" failedBlock:failedBlock];
+            return;
+        }
+    }
     NSDictionary *data = @{
         @"msg_id":@(1062),
         @"device_info":@{
@@ -2804,16 +2811,14 @@
     if (protocol.connectMode < 0 || protocol.connectMode > 3) {
         return NO;
     }
-    if (protocol.lwtStatus) {
-        if (protocol.lwtQos < 0 || protocol.lwtQos > 2) {
-            return NO;
-        }
-        if (!ValidStr(protocol.lwtTopic) || protocol.lwtTopic.length > 128 || ![protocol.lwtTopic isAsciiString]) {
-            return NO;
-        }
-        if (!ValidStr(protocol.lwtPayload) || protocol.lwtPayload.length > 128 || ![protocol.lwtPayload isAsciiString]) {
-            return NO;
-        }
+    if (protocol.lwtQos < 0 || protocol.lwtQos > 2) {
+        return NO;
+    }
+    if (!ValidStr(protocol.lwtTopic) || protocol.lwtTopic.length > 128 || ![protocol.lwtTopic isAsciiString]) {
+        return NO;
+    }
+    if (!ValidStr(protocol.lwtPayload) || protocol.lwtPayload.length > 128 || ![protocol.lwtPayload isAsciiString]) {
+        return NO;
     }
     return YES;
 }

@@ -256,7 +256,7 @@ MKCONormalConnectedCellDelegate>
             cellModel.server = serviceDic[@"service_uuid"];
             cellModel.characteristic = charDic[@"char_uuid"];
             cellModel.properties = [MKBLEBaseSDKAdopter fetchHexValue:[charDic[@"properties"] longLongValue] byteLen:1];
-            cellModel.notifyStatus = [serviceDic[@"notify_status"] integerValue];
+            cellModel.notifyStatus = [charDic[@"notify_status"] integerValue];
             cellModel.value = @"";
             [charList addObject:cellModel];
             [charPathDic setObject:@(j) forKey:charDic[@"char_uuid"]];

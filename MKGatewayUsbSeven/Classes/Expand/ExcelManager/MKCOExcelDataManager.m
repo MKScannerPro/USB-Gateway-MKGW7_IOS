@@ -458,6 +458,27 @@ static NSString *const defaultKeyValueString = @"value:";
     worksheet_write_string(worksheet, 17, 1, [lwtPayloadString UTF8String], NULL);
     worksheet_write_string(worksheet, 17, 2, lwtPayloadMsg, format);
     
+    //caFilePath
+    const char *caFilePathMsg = "0-256 characters";
+    worksheet_write_string(worksheet, 18, 0, "CA File Path", NULL);
+    NSString *caFilePathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.caFilePath)];
+    worksheet_write_string(worksheet, 18, 1, [caFilePathString UTF8String], NULL);
+    worksheet_write_string(worksheet, 18, 2, caFilePathMsg, format);
+    
+    //clientKeyPath
+    const char *clientKeyPathMsg = "0-256 characters";
+    worksheet_write_string(worksheet, 19, 0, "Client Key Path", NULL);
+    NSString *clientKeyPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientKeyPath)];
+    worksheet_write_string(worksheet, 19, 1, [clientKeyPathString UTF8String], NULL);
+    worksheet_write_string(worksheet, 19, 2, clientKeyPathMsg, format);
+    
+    //clientCertPath
+    const char *clientCertPathMsg = "0-256 characters";
+    worksheet_write_string(worksheet, 20, 0, "Client Cert Path", NULL);
+    NSString *clientCertPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientCertPath)];
+    worksheet_write_string(worksheet, 20, 1, [clientCertPathString UTF8String], NULL);
+    worksheet_write_string(worksheet, 20, 2, clientCertPathMsg, format);
+    
     
     //关闭，保存文件
     lxw_error errorCode = workbook_close(workbook);
@@ -591,6 +612,21 @@ static NSString *const defaultKeyValueString = @"value:";
     MKExcelCell *lwtPayloadCell = [sheet getCellWithColumn:@"B" row:18 error:nil];
     NSString *lwtPayload = [SafeStr(lwtPayloadCell.stringValue) stringByReplacingOccurrencesOfString:defaultKeyValueString withString:@""];
     [dic setObject:SafeStr(lwtPayload) forKey:@"lwtPayload"];
+    
+    //caFilePath
+    MKExcelCell *caFilePathCell = [sheet getCellWithColumn:@"B" row:19 error:nil];
+    NSString *caFilePath = [SafeStr(caFilePathCell.stringValue) stringByReplacingOccurrencesOfString:defaultKeyValueString withString:@""];
+    [dic setObject:SafeStr(caFilePath) forKey:@"caFilePath"];
+    
+    //clientKeyPath
+    MKExcelCell *clientKeyPathCell = [sheet getCellWithColumn:@"B" row:20 error:nil];
+    NSString *clientKeyPath = [SafeStr(clientKeyPathCell.stringValue) stringByReplacingOccurrencesOfString:defaultKeyValueString withString:@""];
+    [dic setObject:SafeStr(clientKeyPath) forKey:@"clientKeyPath"];
+    
+    //clientCertPath
+    MKExcelCell *clientCertPathCell = [sheet getCellWithColumn:@"B" row:21 error:nil];
+    NSString *clientCertPath = [SafeStr(clientCertPathCell.stringValue) stringByReplacingOccurrencesOfString:defaultKeyValueString withString:@""];
+    [dic setObject:SafeStr(clientCertPath) forKey:@"clientCertPath"];
     
     if (sucBlock) {
         sucBlock(dic);

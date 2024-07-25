@@ -50,66 +50,34 @@
     }
     if (msgID == 3107) {
         //BXP-Button消警
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskDismissAlarmStatusOperation];
     }
     if (msgID == 3110) {
         //控制B1 LED灯结果
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskConfigDeviceLedReminderOperation];
     }
     if (msgID == 3112) {
         //控制B1 蜂鸣器结果
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskConfigDeviceBuzzerReminderOperation];
     }
     if (msgID == 3301) {
         //网关连接指定mac地址的蓝牙设备
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskConnectNormalBleDeviceWithMacOperation];
     }
     if (msgID == 3304) {
         //读取蓝牙网关连接的指定设备的服务和特征信息
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskReadNormalConnectedDeviceInfoOperation];
     }
     if (msgID == 3306) {
         //打开/关闭监听指定特征
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskNotifyCharacteristicOperation];
     }
     if (msgID == 3308) {
         //读取蓝牙网关连接的指定设备的服务和特征信息
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskReadCharacteristicValueOperation];
     }
     if (msgID == 3310) {
         //向蓝牙网关连接的指定设备的指定特征写入值
-        BOOL success = ([json[@"result_code"] integerValue] == 0);
-        if (!success) {
-            return @{};
-        }
         return [self dataParserGetDataSuccess:json operationID:mk_co_server_taskWriteCharacteristicValueOperation];
     }
     
