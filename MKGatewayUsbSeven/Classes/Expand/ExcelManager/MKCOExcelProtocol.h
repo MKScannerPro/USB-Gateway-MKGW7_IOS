@@ -88,6 +88,7 @@
 
 @property (nonatomic, copy)NSString *lwtPayload;
 
+@optional
 @property (nonatomic, copy)NSString *caFilePath;
 
 @property (nonatomic, copy)NSString *clientKeyPath;

@@ -459,26 +459,31 @@ static NSString *const defaultKeyValueString = @"value:";
     worksheet_write_string(worksheet, 17, 2, lwtPayloadMsg, format);
     
     //caFilePath
-    const char *caFilePathMsg = "0-256 characters";
-    worksheet_write_string(worksheet, 18, 0, "CA File Path", NULL);
-    NSString *caFilePathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.caFilePath)];
-    worksheet_write_string(worksheet, 18, 1, [caFilePathString UTF8String], NULL);
-    worksheet_write_string(worksheet, 18, 2, caFilePathMsg, format);
+    if ([protocol respondsToSelector:@selector(caFilePath)]) {
+        const char *caFilePathMsg = "0-256 characters";
+        worksheet_write_string(worksheet, 18, 0, "CA File Path", NULL);
+        NSString *caFilePathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.caFilePath)];
+        worksheet_write_string(worksheet, 18, 1, [caFilePathString UTF8String], NULL);
+        worksheet_write_string(worksheet, 18, 2, caFilePathMsg, format);
+    }
     
     //clientKeyPath
-    const char *clientKeyPathMsg = "0-256 characters";
-    worksheet_write_string(worksheet, 19, 0, "Client Key Path", NULL);
-    NSString *clientKeyPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientKeyPath)];
-    worksheet_write_string(worksheet, 19, 1, [clientKeyPathString UTF8String], NULL);
-    worksheet_write_string(worksheet, 19, 2, clientKeyPathMsg, format);
+    if ([protocol respondsToSelector:@selector(clientKeyPath)]) {
+        const char *clientKeyPathMsg = "0-256 characters";
+        worksheet_write_string(worksheet, 19, 0, "Client Key Path", NULL);
+        NSString *clientKeyPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientKeyPath)];
+        worksheet_write_string(worksheet, 19, 1, [clientKeyPathString UTF8String], NULL);
+        worksheet_write_string(worksheet, 19, 2, clientKeyPathMsg, format);
+    }
     
     //clientCertPath
-    const char *clientCertPathMsg = "0-256 characters";
-    worksheet_write_string(worksheet, 20, 0, "Client Cert Path", NULL);
-    NSString *clientCertPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientCertPath)];
-    worksheet_write_string(worksheet, 20, 1, [clientCertPathString UTF8String], NULL);
-    worksheet_write_string(worksheet, 20, 2, clientCertPathMsg, format);
-    
+    if ([protocol respondsToSelector:@selector(clientCertPath)]) {
+        const char *clientCertPathMsg = "0-256 characters";
+        worksheet_write_string(worksheet, 20, 0, "Client Cert Path", NULL);
+        NSString *clientCertPathString = [defaultKeyValueString stringByAppendingString:SafeStr(protocol.clientCertPath)];
+        worksheet_write_string(worksheet, 20, 1, [clientCertPathString UTF8String], NULL);
+        worksheet_write_string(worksheet, 20, 2, clientCertPathMsg, format);
+    }
     
     //关闭，保存文件
     lxw_error errorCode = workbook_close(workbook);
