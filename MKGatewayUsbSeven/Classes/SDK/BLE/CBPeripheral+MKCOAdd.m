@@ -18,10 +18,12 @@ static const char *co_firmwareKey = "co_firmwareKey";
 
 static const char *co_passwordKey = "co_passwordKey";
 static const char *co_disconnectTypeKey = "co_disconnectTypeKey";
+static const char *co_productKey = "co_productKey";
 static const char *co_customKey = "co_customKey";
 
 static const char *co_passwordNotifySuccessKey = "co_passwordNotifySuccessKey";
 static const char *co_disconnectTypeNotifySuccessKey = "co_disconnectTypeNotifySuccessKey";
+static const char *co_productNotifySuccessKey = "co_productNotifySuccessKey";
 static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
 
 @implementation CBPeripheral (MKCOAdd)
@@ -52,6 +54,8 @@ static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
                 objc_setAssociatedObject(self, &co_passwordKey, characteristic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA01"]]) {
                 objc_setAssociatedObject(self, &co_disconnectTypeKey, characteristic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+            }else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA02"]]) {
+                objc_setAssociatedObject(self, &co_productKey, characteristic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA03"]]) {
                 objc_setAssociatedObject(self, &co_customKey, characteristic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             }
@@ -70,6 +74,10 @@ static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
         objc_setAssociatedObject(self, &co_disconnectTypeNotifySuccessKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return;
     }
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA02"]]) {
+        objc_setAssociatedObject(self, &co_productNotifySuccessKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        return;
+    }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA03"]]) {
         objc_setAssociatedObject(self, &co_customNotifySuccessKey, @(YES), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return;
@@ -77,13 +85,13 @@ static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
 }
 
 - (BOOL)co_connectSuccess {
-    if (![objc_getAssociatedObject(self, &co_customNotifySuccessKey) boolValue] || ![objc_getAssociatedObject(self, &co_passwordNotifySuccessKey) boolValue] || ![objc_getAssociatedObject(self, &co_disconnectTypeNotifySuccessKey) boolValue]) {
+    if (![objc_getAssociatedObject(self, &co_customNotifySuccessKey) boolValue] || ![objc_getAssociatedObject(self, &co_productNotifySuccessKey) boolValue] || ![objc_getAssociatedObject(self, &co_passwordNotifySuccessKey) boolValue] || ![objc_getAssociatedObject(self, &co_disconnectTypeNotifySuccessKey) boolValue]) {
         return NO;
     }
     if (!self.co_hardware || !self.co_firmware) {
         return NO;
     }
-    if (!self.co_password || !self.co_disconnectType || !self.co_custom) {
+    if (!self.co_password || !self.co_disconnectType || !self.co_custom || !self.co_product) {
         return NO;
     }
     return YES;
@@ -98,10 +106,12 @@ static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
     
     objc_setAssociatedObject(self, &co_passwordKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, &co_disconnectTypeKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &co_productKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, &co_customKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     objc_setAssociatedObject(self, &co_passwordNotifySuccessKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, &co_disconnectTypeNotifySuccessKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &co_productNotifySuccessKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     objc_setAssociatedObject(self, &co_customNotifySuccessKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -137,6 +147,10 @@ static const char *co_customNotifySuccessKey = "co_customNotifySuccessKey";
 
 - (CBCharacteristic *)co_custom {
     return objc_getAssociatedObject(self, &co_customKey);
+}
+
+- (CBCharacteristic *)co_product {
+    return objc_getAssociatedObject(self, &co_productKey);
 }
 
 @end

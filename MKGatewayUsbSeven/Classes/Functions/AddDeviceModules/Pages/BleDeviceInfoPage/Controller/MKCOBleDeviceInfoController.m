@@ -16,6 +16,10 @@
 
 #import "MKHudManager.h"
 #import "MKNormalTextCell.h"
+#import "MKCustomUIAdopter.h"
+#import "MKAlertView.h"
+
+#import "MKCOInterface+MKCOConfig.h"
 
 #import "MKCOBleDeviceInfoModel.h"
 
@@ -62,6 +66,24 @@
     return cell;
 }
 
+#pragma mark - event method
+- (void)changeButtonPressed {
+    @weakify(self);
+    MKAlertViewAction *cancelAction = [[MKAlertViewAction alloc] initWithTitle:@"cancel" handler:^{
+        
+    }];
+    
+    MKAlertViewAction *confirmAction = [[MKAlertViewAction alloc] initWithTitle:@"confirm" handler:^{
+        @strongify(self);
+        [self enterUartMode];
+    }];
+    NSString *msg = @"The work mode will be changed to USB mode after a manual reboot, WIFI will not work more, please confirm whether to change it again.";
+    MKAlertView *alertView = [[MKAlertView alloc] init];
+    [alertView addAction:cancelAction];
+    [alertView addAction:confirmAction];
+    [alertView showAlertWithTitle:@"" message:msg notificationName:@"mk_co_needDismissAlert"];
+}
+
 #pragma mark - interface
 - (void)readDataFromDevice {
     [[MKHudManager share] showHUDWithTitle:@"Reading..." inView:self.view isPenetration:NO];
@@ -72,6 +94,17 @@
         [self loadSectionDatas];
     } failedBlock:^(NSError * _Nonnull error) {
         @strongify(self);
+        [[MKHudManager share] hide];
+        [self.view showCentralToast:error.userInfo[@"errorInfo"]];
+    }];
+}
+
+- (void)enterUartMode {
+    [[MKHudManager share] showHUDWithTitle:@"Config..." inView:self.view isPenetration:NO];
+    [MKCOInterface co_enterUARTModeWithSucBlock:^{
+        [[MKHudManager share] hide];
+        [self.view showCentralToast:@"Success"];
+    } failedBlock:^(NSError * _Nonnull error) {
         [[MKHudManager share] hide];
         [self.view showCentralToast:error.userInfo[@"errorInfo"]];
     }];
@@ -141,6 +174,8 @@
         _tableView.backgroundColor = RGBCOLOR(242, 242, 242);
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        
+        _tableView.tableFooterView = [self footerView];
     }
     return _tableView;
 }
@@ -157,6 +192,19 @@
         _dataModel = [[MKCOBleDeviceInfoModel alloc] init];
     }
     return _dataModel;
+}
+
+- (UIView *)footerView {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kViewWidth, 120.f)];
+    footerView.backgroundColor = RGBCOLOR(242, 242, 242);
+    
+    UIButton *changeButton = [MKCustomUIAdopter customButtonWithTitle:@"Change Work Mode"
+                                                               target:self
+                                                               action:@selector(changeButtonPressed)];
+    changeButton.frame = CGRectMake(30.f, 30.f, kViewWidth - 2 * 30.f, 40.f);
+    [footerView addSubview:changeButton];
+    
+    return footerView;
 }
 
 @end

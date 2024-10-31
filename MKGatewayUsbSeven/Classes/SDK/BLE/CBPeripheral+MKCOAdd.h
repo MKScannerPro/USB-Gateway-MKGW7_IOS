@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly)CBCharacteristic *co_disconnectType;
 
 /// W/N
+@property (nonatomic, strong, readonly)CBCharacteristic *co_product;
+
+/// W/N
 @property (nonatomic, strong, readonly)CBCharacteristic *co_custom;
 
 - (void)co_updateCharacterWithService:(CBService *)service;

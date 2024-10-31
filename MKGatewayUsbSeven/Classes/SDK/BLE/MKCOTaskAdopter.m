@@ -60,6 +60,9 @@ NSString *const mk_co_contentKey = @"mk_co_contentKey";
         }
         return [self dataParserGetDataSuccess:@{@"state":state} operationID:mk_co_connectPasswordOperation];
     }
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA02"]]) {
+        return [self parseProductData:readData];
+    }
     if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"AA03"]]) {
         return [self parseCustomData:readData];
     }
@@ -71,6 +74,30 @@ NSString *const mk_co_contentKey = @"mk_co_contentKey";
 }
 
 #pragma mark - Private method
++ (NSDictionary *)parseProductData:(NSData *)readData {
+    NSString *readString = [MKBLEBaseSDKAdopter hexStringFromData:readData];
+    NSInteger dataLen = [MKBLEBaseSDKAdopter getDecimalWithHex:readString range:NSMakeRange(6, 2)];
+    if (readData.length != dataLen + 4) {
+        return @{};
+    }
+    NSString *flag = [readString substringWithRange:NSMakeRange(2, 2)];
+    NSString *cmd = [readString substringWithRange:NSMakeRange(4, 2)];
+    NSString *content = [readString substringWithRange:NSMakeRange(8, dataLen * 2)];
+    if ([[readString substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"ed"]) {
+        //单帧数据
+        if ([flag isEqualToString:@"01"]) {
+            mk_co_taskOperationID operationID = mk_co_defaultTaskOperationID;
+            BOOL success = [content isEqualToString:@"01"];
+            if ([cmd isEqualToString:@"04"]) {
+                //设备重启进入UART模式
+                operationID = mk_co_taskEnterUARTModeOperation;
+            }
+            return [self dataParserGetDataSuccess:@{@"success":@(success)} operationID:operationID];
+        }
+    }
+    
+    return @{};
+}
 
 + (NSDictionary *)parseCustomData:(NSData *)readData {
     NSString *readString = [MKBLEBaseSDKAdopter hexStringFromData:readData];
@@ -431,6 +458,9 @@ NSString *const mk_co_contentKey = @"mk_co_contentKey";
     if ([cmd isEqualToString:@"02"]) {
         //重启进入STA模式
         operationID = mk_co_taskEnterSTAModeOperation;
+    }else if ([cmd isEqualToString:@"04"]) {
+        //设备重启进入UART模式
+        operationID = mk_co_taskEnterUARTModeOperation;
     }else if ([cmd isEqualToString:@"11"]) {
         //配置NTP服务器域名
         operationID = mk_co_taskConfigNTPServerHostOperation;

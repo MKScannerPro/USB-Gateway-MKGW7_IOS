@@ -37,6 +37,20 @@ static const NSInteger packDataMaxLen = 150;
                    failedBlock:failedBlock];
 }
 
++ (void)co_enterUARTModeWithSucBlock:(void (^)(void))sucBlock
+                         failedBlock:(void (^)(NSError *error))failedBlock {
+    [centralManager addTaskWithTaskID:mk_co_taskEnterUARTModeOperation characteristic:peripheral.co_product commandData:@"ed010400" successBlock:^(id  _Nonnull returnData) {
+        BOOL success = [returnData[@"result"][@"success"] boolValue];
+        if (!success) {
+            [MKBLEBaseSDKAdopter operationSetParamsErrorBlock:failedBlock];
+            return ;
+        }
+        if (sucBlock) {
+            sucBlock();
+        }
+    } failureBlock:failedBlock];
+}
+
 + (void)co_configNTPServerHost:(NSString *)host
                       sucBlock:(void (^)(void))sucBlock
                    failedBlock:(void (^)(NSError *error))failedBlock {

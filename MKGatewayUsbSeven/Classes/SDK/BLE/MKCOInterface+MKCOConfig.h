@@ -24,6 +24,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)co_enterSTAModeWithSucBlock:(void (^)(void))sucBlock
                         failedBlock:(void (^)(NSError *error))failedBlock;
 
+/// The device enter UART mode.
+/// @param sucBlock Success callback
+/// @param failedBlock Failure callback
++ (void)co_enterUARTModeWithSucBlock:(void (^)(void))sucBlock
+                         failedBlock:(void (^)(NSError *error))failedBlock;
+
 /// Configure NTP server domain name.
 /// @param host 0~64 character ascii code.
 /// @param sucBlock Success callback

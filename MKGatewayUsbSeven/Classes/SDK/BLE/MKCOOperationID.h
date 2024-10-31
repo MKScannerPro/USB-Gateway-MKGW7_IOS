@@ -75,6 +75,7 @@ typedef NS_ENUM(NSInteger, mk_co_taskOperationID) {
     
 #pragma mark - 配置
     mk_co_taskEnterSTAModeOperation,                //设备重启进入STA模式
+    mk_co_taskEnterUARTModeOperation,               //设备重启进入UART模式
     mk_co_taskConfigNTPServerHostOperation,         //配置NTP服务器域名
     mk_co_taskConfigTimeZoneOperation,              //配置时区
     

@@ -713,7 +713,7 @@
 		BD3F3A98EC6C602D4A3DDF18319E2F9A /* MKBaseCollectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 603E2E2F3B863A1BD2587D781B3C69FB /* MKBaseCollectionView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD594E8E60C963A71B85F387162395BD /* NSObject+MKModel.h in Headers */ = {isa = PBXBuildFile; fileRef = B2D2BAA91F4A4126A398DC20ACB2BFBF /* NSObject+MKModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE3CA39A9A2255EBDD984F36E68B2143 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA234C484BC552F44F7898CEF868AC58 /* Foundation.framework */; };
-		BE42F8D7A94B4CAF147BBCF873911794 /* MKCLOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1542E09D08543D960FF899DE4D8D62E5 /* MKCLOperation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		BE42F8D7A94B4CAF147BBCF873911794 /* MKCOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1542E09D08543D960FF899DE4D8D62E5 /* MKCOOperation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BE69031D7CB036307FA4DA8F41A86DFB /* MKCOOTAPageModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BC8D7B327590BC08FF844F4BF1E42ED /* MKCOOTAPageModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE7384868A447A153EB96E937A36DC7D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA234C484BC552F44F7898CEF868AC58 /* Foundation.framework */; };
 		BE89C2BBE57998EAEFEE3E7593CFC8C1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC83387F05C9902EF2FB3187FF34D53 /* CoreGraphics.framework */; };
@@ -1415,7 +1415,7 @@
 		145459917CF5E5A20DBDD0F30A051AF5 /* mk_customUI_wifisignalIcon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "mk_customUI_wifisignalIcon@3x.png"; path = "MKCustomUIModule/Assets/mk_customUI_wifisignalIcon@3x.png"; sourceTree = "<group>"; };
 		1519136E4F877E10991C85093000FEA0 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		15406057C88F2C39DAA3DEF55A5747C1 /* AFAutoPurgingImageCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFAutoPurgingImageCache.h; path = "UIKit+AFNetworking/AFAutoPurgingImageCache.h"; sourceTree = "<group>"; };
-		1542E09D08543D960FF899DE4D8D62E5 /* MKCLOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MKCLOperation.m; path = MKGatewayUsbSeven/Classes/SDK/BLE/MKCLOperation.m; sourceTree = "<group>"; };
+		1542E09D08543D960FF899DE4D8D62E5 /* MKCOOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MKCOOperation.m; path = MKGatewayUsbSeven/Classes/SDK/BLE/MKCOOperation.m; sourceTree = "<group>"; };
 		155FD078CE09B771A0DF075AAB4B65CE /* co_addIcon@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "co_addIcon@2x.png"; path = "MKGatewayUsbSeven/Assets/co_addIcon@2x.png"; sourceTree = "<group>"; };
 		1562C12CAA6AA117A9E09B619087602B /* MKCOFilterByButtonModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MKCOFilterByButtonModel.h; path = MKGatewayUsbSeven/Classes/Functions/FilterPages/FilterByButtonPage/Model/MKCOFilterByButtonModel.h; sourceTree = "<group>"; };
 		1568F9BF3E9B70FD89029636DEB149D3 /* mk_customUI_addUsIcon@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "mk_customUI_addUsIcon@2x.png"; path = "MKCustomUIModule/Assets/mk_customUI_addUsIcon@2x.png"; sourceTree = "<group>"; };
@@ -4643,7 +4643,7 @@
 			children = (
 				AEA708A9C6E460B33F1729D8F722E723 /* CBPeripheral+MKCOAdd.h */,
 				C04B56145153FF9759DF77AC29BFF2D3 /* CBPeripheral+MKCOAdd.m */,
-				1542E09D08543D960FF899DE4D8D62E5 /* MKCLOperation.m */,
+				1542E09D08543D960FF899DE4D8D62E5 /* MKCOOperation.m */,
 				7063036D7B21188547443FDE9078D103 /* MKCOBLESDK.h */,
 				35306E782A62BAA064099AB53DACDABE /* MKCOCentralManager.h */,
 				403636EA49F19743A61681163AA6DD7B /* MKCOCentralManager.m */,
@@ -7490,7 +7490,7 @@
 			files = (
 				3D1D755D5BED7010BE7BAAD82A314C6B /* CBPeripheral+MKCOAdd.m in Sources */,
 				A9A1DBD4D10B28365C09D95363E2A6C5 /* CTMediator+MKCOAdd.m in Sources */,
-				BE42F8D7A94B4CAF147BBCF873911794 /* MKCLOperation.m in Sources */,
+				BE42F8D7A94B4CAF147BBCF873911794 /* MKCOOperation.m in Sources */,
 				8B1F234E84A52C3FCCA9BF2321ED9256 /* MKCOAddDeviceView.m in Sources */,
 				81815A3CE8BAC18C3A5B18A3976E7DD6 /* MKCOAdvBeaconController.m in Sources */,
 				6DA3F0373DEAEC8552DD4518E33E636B /* MKCOAdvBeaconModel.m in Sources */,
