@@ -148,6 +148,12 @@ TODO: Add long description of the pod here.
     
   end
   
+  s.subspec 'LoginManager' do |ss|
+    ss.source_files = 'MKGatewayUsbSeven/Classes/LoginManager/**'
+  
+    ss.dependency 'MKIotCloudManager'
+  end
+  
   s.subspec 'Functions' do |ss|
     
     ss.subspec 'AddDeviceModules' do |sss|
@@ -289,6 +295,8 @@ TODO: Add long description of the pod here.
           ssss.dependency 'MKGatewayUsbSeven/Functions/ServerForApp'
           ssss.dependency 'MKGatewayUsbSeven/Functions/ScanPage'
           ssss.dependency 'MKGatewayUsbSeven/Functions/DeviceDataPage'
+          ssss.dependency 'MKGatewayUsbSeven/Functions/SyncDevicePage'
+          
         end
         
         sss.subspec 'Model' do |ssss|
@@ -813,11 +821,24 @@ TODO: Add long description of the pod here.
         
     end
     
+    ss.subspec 'SyncDevicePage' do |sss|
+        sss.subspec 'Controller' do |ssss|
+          ssss.source_files = 'MKGatewayUsbSeven/Classes/Functions/SyncDevicePage/Controller/**'
+          
+          ssss.dependency 'MKGatewayUsbSeven/Functions/SyncDevicePage/View'
+        end
+        
+        sss.subspec 'View' do |ssss|
+          ssss.source_files = 'MKGatewayUsbSeven/Classes/Functions/SyncDevicePage/View/**'
+        end
+    end
+    
     ss.dependency 'MKGatewayUsbSeven/SDK'
     ss.dependency 'MKGatewayUsbSeven/Expand'
     ss.dependency 'MKGatewayUsbSeven/CTMediator'
     ss.dependency 'MKGatewayUsbSeven/DeviceModel'
     ss.dependency 'MKGatewayUsbSeven/CTMediator'
+    ss.dependency 'MKGatewayUsbSeven/LoginManager'
   
     ss.dependency 'MKBaseModuleLibrary'
     ss.dependency 'MKCustomUIModule'

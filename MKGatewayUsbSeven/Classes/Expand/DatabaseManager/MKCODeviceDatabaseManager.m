@@ -17,11 +17,11 @@
 @implementation MKCODeviceDatabaseManager
 
 + (BOOL)initDataBase {
-    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"GTDeviceDB")];
+    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"CODeviceDB")];
     if (![db open]) {
         return NO;
     }
-    NSString *sqlCreateTable = [NSString stringWithFormat:@"create table if not exists GTDeviceTable (deviceType text,clientID text,deviceName text,subscribedTopic text,publishedTopic text,macAddress text, lwtStatus text,lwtTopic text)"];
+    NSString *sqlCreateTable = [NSString stringWithFormat:@"create table if not exists CODeviceTable (deviceType text,clientID text,deviceName text,subscribedTopic text,publishedTopic text,macAddress text, lwtStatus text,lwtTopic text)"];
     BOOL resCreate = [db executeUpdate:sqlCreateTable];
     if (!resCreate) {
         [db close];
@@ -37,23 +37,23 @@
         [self operationInsertFailedBlock:failedBlock];
         return ;
     }
-    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"GTDeviceDB")];
+    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"CODeviceDB")];
     if (![db open]) {
         [self operationInsertFailedBlock:failedBlock];
         return;
     }
-    NSString *sqlCreateTable = [NSString stringWithFormat:@"create table if not exists GTDeviceTable (deviceType text,clientID text,deviceName text,subscribedTopic text,publishedTopic text,macAddress text,lwtStatus text,lwtTopic text)"];
+    NSString *sqlCreateTable = [NSString stringWithFormat:@"create table if not exists CODeviceTable (deviceType text,clientID text,deviceName text,subscribedTopic text,publishedTopic text,macAddress text,lwtStatus text,lwtTopic text)"];
     BOOL resCreate = [db executeUpdate:sqlCreateTable];
     if (!resCreate) {
         [db close];
         [self operationInsertFailedBlock:failedBlock];
         return;
     }
-    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"GTDeviceDB")] inDatabase:^(FMDatabase *db) {
+    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"CODeviceDB")] inDatabase:^(FMDatabase *db) {
         
         for (MKCODeviceModel *device in deviceList) {
             BOOL exist = NO;
-            FMResultSet * result = [db executeQuery:@"select * from GTDeviceTable where macAddress = ?",device.macAddress];
+            FMResultSet * result = [db executeQuery:@"select * from CODeviceTable where macAddress = ?",device.macAddress];
             while (result.next) {
                 if ([device.macAddress isEqualToString:[result stringForColumn:@"macAddress"]]) {
                     exist = YES;
@@ -61,10 +61,10 @@
             }
             if (exist) {
                 //存在该设备，更新设备
-                [db executeUpdate:@"UPDATE GTDeviceTable SET deviceType = ?, clientID = ?, deviceName = ? ,subscribedTopic = ? ,publishedTopic = ?,lwtStatus = ? ,lwtTopic = ? WHERE macAddress = ?",SafeStr(device.deviceType),SafeStr(device.clientID),SafeStr(device.deviceName),SafeStr(device.subscribedTopic),SafeStr(device.publishedTopic),(device.lwtStatus ? @"1" : @"0"),SafeStr(device.lwtTopic),SafeStr(device.macAddress)];
+                [db executeUpdate:@"UPDATE CODeviceTable SET deviceType = ?, clientID = ?, deviceName = ? ,subscribedTopic = ? ,publishedTopic = ?,lwtStatus = ? ,lwtTopic = ? WHERE macAddress = ?",SafeStr(device.deviceType),SafeStr(device.clientID),SafeStr(device.deviceName),SafeStr(device.subscribedTopic),SafeStr(device.publishedTopic),(device.lwtStatus ? @"1" : @"0"),SafeStr(device.lwtTopic),SafeStr(device.macAddress)];
             }else{
                 //不存在，插入设备
-                [db executeUpdate:@"INSERT INTO GTDeviceTable (deviceType,clientID,deviceName,subscribedTopic,publishedTopic,macAddress,lwtTopic,lwtStatus) VALUES (?,?,?,?,?,?,?,?)",SafeStr(device.deviceType),SafeStr(device.clientID),SafeStr(device.deviceName),SafeStr(device.subscribedTopic),SafeStr(device.publishedTopic),SafeStr(device.macAddress),SafeStr(device.lwtTopic),(device.lwtStatus ? @"1" : @"0")];
+                [db executeUpdate:@"INSERT INTO CODeviceTable (deviceType,clientID,deviceName,subscribedTopic,publishedTopic,macAddress,lwtTopic,lwtStatus) VALUES (?,?,?,?,?,?,?,?)",SafeStr(device.deviceType),SafeStr(device.clientID),SafeStr(device.deviceName),SafeStr(device.subscribedTopic),SafeStr(device.publishedTopic),SafeStr(device.macAddress),SafeStr(device.lwtTopic),(device.lwtStatus ? @"1" : @"0")];
             }
         }
         
@@ -85,9 +85,9 @@
         return;
     }
     
-    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"GTDeviceDB")] inDatabase:^(FMDatabase *db) {
+    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"CODeviceDB")] inDatabase:^(FMDatabase *db) {
         
-        BOOL result = [db executeUpdate:@"DELETE FROM GTDeviceTable WHERE macAddress = ?",macAddress];
+        BOOL result = [db executeUpdate:@"DELETE FROM CODeviceTable WHERE macAddress = ?",macAddress];
         if (!result) {
             [self operationDeleteFailedBlock:failedBlock];
             return;
@@ -103,14 +103,14 @@
 
 + (void)readLocalDeviceWithSucBlock:(void (^)(NSArray <MKCODeviceModel *> *deviceList))sucBlock
                         failedBlock:(void (^)(NSError *error))failedBlock {
-    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"GTDeviceDB")];
+    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"CODeviceDB")];
     if (![db open]) {
         [self operationGetDataFailedBlock:failedBlock];
         return;
     }
-    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"GTDeviceDB")] inDatabase:^(FMDatabase *db) {
+    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"CODeviceDB")] inDatabase:^(FMDatabase *db) {
         NSMutableArray *tempDataList = [NSMutableArray array];
-        FMResultSet * result = [db executeQuery:@"SELECT * FROM GTDeviceTable"];
+        FMResultSet * result = [db executeQuery:@"SELECT * FROM CODeviceTable"];
         while ([result next]) {
             MKCODeviceModel *dataModel = [[MKCODeviceModel alloc] init];
             dataModel.clientID = [result stringForColumn:@"clientID"];
@@ -141,15 +141,15 @@
         [self operationDeleteFailedBlock:failedBlock];
         return;
     }
-    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"GTDeviceDB")];
+    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"CODeviceDB")];
     if (![db open]) {
         [self operationInsertFailedBlock:failedBlock];
         return;
     }
-    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"GTDeviceDB")] inDatabase:^(FMDatabase *db) {
+    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"CODeviceDB")] inDatabase:^(FMDatabase *db) {
         
         BOOL exist = NO;
-        FMResultSet * result = [db executeQuery:@"select * from GTDeviceTable where macAddress = ?",macAddress];
+        FMResultSet * result = [db executeQuery:@"select * from CODeviceTable where macAddress = ?",macAddress];
         while (result.next) {
             if ([macAddress isEqualToString:[result stringForColumn:@"macAddress"]]) {
                 exist = YES;
@@ -161,7 +161,7 @@
             return;
         }
         //存在该设备，更新设备
-        [db executeUpdate:@"UPDATE GTDeviceTable SET deviceName = ? WHERE macAddress = ?",localName,macAddress];
+        [db executeUpdate:@"UPDATE CODeviceTable SET deviceName = ? WHERE macAddress = ?",localName,macAddress];
         if (sucBlock) {
             moko_dispatch_main_safe(^{
                 sucBlock();
@@ -187,15 +187,15 @@
         [self operationDeleteFailedBlock:failedBlock];
         return;
     }
-    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"GTDeviceDB")];
+    FMDatabase* db = [FMDatabase databaseWithPath:kFilePath(@"CODeviceDB")];
     if (![db open]) {
         [self operationInsertFailedBlock:failedBlock];
         return;
     }
-    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"GTDeviceDB")] inDatabase:^(FMDatabase *db) {
+    [[FMDatabaseQueue databaseQueueWithPath:kFilePath(@"CODeviceDB")] inDatabase:^(FMDatabase *db) {
         
         BOOL exist = NO;
-        FMResultSet * result = [db executeQuery:@"select * from GTDeviceTable where macAddress = ?",macAddress];
+        FMResultSet * result = [db executeQuery:@"select * from CODeviceTable where macAddress = ?",macAddress];
         while (result.next) {
             if ([macAddress isEqualToString:[result stringForColumn:@"macAddress"]]) {
                 exist = YES;
@@ -207,7 +207,7 @@
             return;
         }
         //存在该设备，更新设备
-        [db executeUpdate:@"UPDATE GTDeviceTable SET clientID = ?, subscribedTopic = ? ,publishedTopic = ? , lwtStatus = ?,lwtTopic = ? WHERE macAddress = ?",SafeStr(clientID),SafeStr(subscribedTopic),SafeStr(publishedTopic),(lwtStatus ? @"1" : @"0"),SafeStr(lwtTopic),SafeStr(macAddress)];
+        [db executeUpdate:@"UPDATE CODeviceTable SET clientID = ?, subscribedTopic = ? ,publishedTopic = ? , lwtStatus = ?,lwtTopic = ? WHERE macAddress = ?",SafeStr(clientID),SafeStr(subscribedTopic),SafeStr(publishedTopic),(lwtStatus ? @"1" : @"0"),SafeStr(lwtTopic),SafeStr(macAddress)];
         if (sucBlock) {
             moko_dispatch_main_safe(^{
                 sucBlock();

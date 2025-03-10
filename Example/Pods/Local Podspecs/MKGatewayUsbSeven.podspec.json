@@ -184,6 +184,15 @@
       ]
     },
     {
+      "name": "LoginManager",
+      "source_files": "MKGatewayUsbSeven/Classes/LoginManager/**",
+      "dependencies": {
+        "MKIotCloudManager": [
+
+        ]
+      }
+    },
+    {
       "name": "Functions",
       "dependencies": {
         "MKGatewayUsbSeven/SDK": [
@@ -196,6 +205,9 @@
 
         ],
         "MKGatewayUsbSeven/DeviceModel": [
+
+        ],
+        "MKGatewayUsbSeven/LoginManager": [
 
         ],
         "MKBaseModuleLibrary": [
@@ -438,6 +450,9 @@
 
                 ],
                 "MKGatewayUsbSeven/Functions/DeviceDataPage": [
+
+                ],
+                "MKGatewayUsbSeven/Functions/SyncDevicePage": [
 
                 ]
               }
@@ -1247,6 +1262,24 @@
                   }
                 }
               ]
+            }
+          ]
+        },
+        {
+          "name": "SyncDevicePage",
+          "subspecs": [
+            {
+              "name": "Controller",
+              "source_files": "MKGatewayUsbSeven/Classes/Functions/SyncDevicePage/Controller/**",
+              "dependencies": {
+                "MKGatewayUsbSeven/Functions/SyncDevicePage/View": [
+
+                ]
+              }
+            },
+            {
+              "name": "View",
+              "source_files": "MKGatewayUsbSeven/Classes/Functions/SyncDevicePage/View/**"
             }
           ]
         }

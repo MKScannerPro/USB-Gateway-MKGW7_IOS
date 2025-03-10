@@ -19,6 +19,9 @@
 #import "MKCustomUIAdopter.h"
 #import "MKAlertView.h"
 
+#import "MKIoTCloudAccountLoginAlertView.h"
+#import "MKNormalService.h"
+
 #import "MKNetworkManager.h"
 
 #import "MKCODeviceModeManager.h"
@@ -32,6 +35,8 @@
 
 #import "CTMediator+MKCOAdd.h"
 
+#import "MKCOUserLoginManager.h"
+
 #import "MKCODeviceListModel.h"
 
 #import "MKCOAddDeviceView.h"
@@ -41,6 +46,7 @@
 #import "MKCOServerForAppController.h"
 #import "MKCOScanPageController.h"
 #import "MKCODeviceDataController.h"
+#import "MKCOSyncDeviceController.h"
 
 static NSTimeInterval const kRefreshInterval = 0.5f;
 
@@ -432,6 +438,23 @@ MKCODeviceModelDelegate>
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)syncButtonPressed {
+    if (self.dataList.count == 0) {
+        [self.view showCentralToast:@"Add devices first"];
+        return;
+    }
+    if (ValidStr([MKCOUserLoginManager shared].password)) {
+        //已经登陆过
+        [self login:[MKCOUserLoginManager shared].isHome username:[MKCOUserLoginManager shared].username password:[MKCOUserLoginManager shared].password];
+        return;
+    }
+    MKIoTCloudAccountLoginAlertViewModel *viewModel = [[MKIoTCloudAccountLoginAlertViewModel alloc] init];
+    MKIoTCloudAccountLoginAlertView *alertView = [[MKIoTCloudAccountLoginAlertView alloc] init];
+    [alertView showViewWithModel:viewModel completeBlock:^(NSString * _Nonnull account, NSString * _Nonnull password, BOOL isHome) {
+        [self login:isHome username:account password:password];
+    }];
+}
+
 #pragma mark - private method
 - (void)loadMainViews {
     if (self.tableView.superview) {
@@ -578,6 +601,21 @@ MKCODeviceModelDelegate>
                                                object:nil];
 }
 
+- (void)login:(BOOL)isHome username:(NSString *)username password:(NSString *)password {
+    [[MKHudManager share] showHUDWithTitle:@"Login..." inView:self.view isPenetration:NO];
+    [[MKNormalService share] loginWithUsername:username password:password isHome:isHome sucBlock:^(id returnData) {
+        [[MKHudManager share] hide];
+        [[MKCOUserLoginManager shared] syncLoginDataWithHome:isHome username:username password:password];
+        MKCOSyncDeviceController *vc = [[MKCOSyncDeviceController alloc] init];
+        vc.deviceList = self.dataList;
+        vc.token = SafeStr(returnData[@"data"][@"access_token"]);
+        [self.navigationController pushViewController:vc animated:YES];
+    } failBlock:^(NSError *error) {
+        [[MKHudManager share] hide];
+        [self.view showCentralToast:error.userInfo[@"errorInfo"]];
+    }];
+}
+
 #pragma mark - 定时刷新
 
 - (void)needRefreshList {
@@ -620,6 +658,27 @@ MKCODeviceModelDelegate>
         make.bottom.mas_equalTo(self.view.mas_safeAreaLayoutGuideBottom);
         make.height.mas_equalTo(60.f);
     }];
+    UIButton *addButton = [MKCustomUIAdopter customButtonWithTitle:@"Add Devices"
+                                                            target:self
+                                                            action:@selector(addButtonPressed)];
+    [self.footerView addSubview:addButton];
+    [addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(30.f);
+        make.right.mas_equalTo(self.footerView.mas_centerX).mas_offset(-10.f);
+        make.centerY.mas_equalTo(self.footerView.mas_centerY);
+        make.height.mas_equalTo(40.f);
+    }];
+    
+    UIButton *syncButton = [MKCustomUIAdopter customButtonWithTitle:@"Sync Devices"
+                                                             target:self
+                                                             action:@selector(syncButtonPressed)];
+    [self.footerView addSubview:syncButton];
+    [syncButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.footerView.mas_centerX).mas_offset(10.f);
+        make.right.mas_equalTo(-30.f);
+        make.centerY.mas_equalTo(self.footerView.mas_centerY);
+        make.height.mas_equalTo(40.f);
+    }];
 }
 
 #pragma mark - getter
@@ -658,16 +717,6 @@ MKCODeviceModelDelegate>
     if (!_footerView) {
         _footerView = [[UIView alloc] init];
         _footerView.backgroundColor = COLOR_WHITE_MACROS;
-        UIButton *addButton = [MKCustomUIAdopter customButtonWithTitle:@"Add Devices"
-                                                                target:self
-                                                                action:@selector(addButtonPressed)];
-        [_footerView addSubview:addButton];
-        [addButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(30.f);
-            make.right.mas_equalTo(-30.f);
-            make.centerY.mas_equalTo(_footerView.mas_centerY);
-            make.height.mas_equalTo(40.f);
-        }];
     }
     return _footerView;
 }
