@@ -2249,30 +2249,30 @@ PODS:
   - MKGatewayUsbSeven/Target (0.1.0):
     - MKBaseModuleLibrary
     - MKGatewayUsbSeven/Functions
-  - MKIotCloudManager (0.0.5):
-    - MKIotCloudManager/SDK (= 0.0.5)
-    - MKIotCloudManager/View (= 0.0.5)
-  - MKIotCloudManager/SDK (0.0.5):
-    - MKIotCloudManager/SDK/Config (= 0.0.5)
-    - MKIotCloudManager/SDK/MKNetwork (= 0.0.5)
-    - MKIotCloudManager/SDK/NetworkService (= 0.0.5)
-  - MKIotCloudManager/SDK/Config (0.0.5)
-  - MKIotCloudManager/SDK/MKNetwork (0.0.5):
+  - MKIotCloudManager (0.0.8):
+    - MKIotCloudManager/SDK (= 0.0.8)
+    - MKIotCloudManager/View (= 0.0.8)
+  - MKIotCloudManager/SDK (0.0.8):
+    - MKIotCloudManager/SDK/Config (= 0.0.8)
+    - MKIotCloudManager/SDK/MKNetwork (= 0.0.8)
+    - MKIotCloudManager/SDK/NetworkService (= 0.0.8)
+  - MKIotCloudManager/SDK/Config (0.0.8)
+  - MKIotCloudManager/SDK/MKNetwork (0.0.8):
     - AFNetworking
     - MKBaseModuleLibrary
     - MKIotCloudManager/SDK/Config
-  - MKIotCloudManager/SDK/NetworkService (0.0.5):
+  - MKIotCloudManager/SDK/NetworkService (0.0.8):
     - AFNetworking
     - MKBaseModuleLibrary
     - MKIotCloudManager/SDK/Config
     - MKIotCloudManager/SDK/MKNetwork
-  - MKIotCloudManager/View (0.0.5):
-    - MKIotCloudManager/View/AccountLoginAlertView (= 0.0.5)
-    - MKIotCloudManager/View/ExitAccountAlertView (= 0.0.5)
-  - MKIotCloudManager/View/AccountLoginAlertView (0.0.5):
+  - MKIotCloudManager/View (0.0.8):
+    - MKIotCloudManager/View/AccountLoginAlertView (= 0.0.8)
+    - MKIotCloudManager/View/ExitAccountAlertView (= 0.0.8)
+  - MKIotCloudManager/View/AccountLoginAlertView (0.0.8):
     - MKBaseModuleLibrary
     - MKCustomUIModule
-  - MKIotCloudManager/View/ExitAccountAlertView (0.0.5):
+  - MKIotCloudManager/View/ExitAccountAlertView (0.0.8):
     - MKBaseModuleLibrary
     - MKCustomUIModule
   - MLInputDodger (1.5.2)
@@ -2321,7 +2321,7 @@ SPEC CHECKSUMS:
   MKBaseMQTTModule: 5434692b017865eede3b2ac6d2b4df52acd65a91
   MKCustomUIModule: bbc862397ad4ffad0a88de756265a29aad5ddaab
   MKGatewayUsbSeven: b50c5d3673aed061a72784bfa1715a0cbb249996
-  MKIotCloudManager: 2d80758d19191e83977c12313842d0febb047dab
+  MKIotCloudManager: 2f9ed9b3c6eff5ee81725dc3b89099deffbd7230
   MLInputDodger: 79a0e420a80d0d3bba122bf2639603cc76609ba8
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e

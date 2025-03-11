@@ -123,7 +123,7 @@
     }
     self.macAddress = [self.macAddress lowercaseString];
     
-    if (self.deviceType < 0 || self.deviceType > 8) {
+    if (self.deviceType < 0 || self.deviceType > 9) {
         return @"Device type error";
     }
     
@@ -178,6 +178,9 @@
     }else if (self.deviceType == 8) {
         //MKGW7
         model = @"85";
+    }else if (self.deviceType == 9) {
+        //MKGW4
+        model = @"200";
     }
     return @{
         @"lastWill":self.lastWillTopic,

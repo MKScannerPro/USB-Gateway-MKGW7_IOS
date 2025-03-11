@@ -449,6 +449,9 @@ MKCODeviceModelDelegate>
         return;
     }
     MKIoTCloudAccountLoginAlertViewModel *viewModel = [[MKIoTCloudAccountLoginAlertViewModel alloc] init];
+    viewModel.account = [MKCOUserLoginManager shared].username;
+    viewModel.isHome = [MKCOUserLoginManager shared].isHome;
+    viewModel.password = [MKCOUserLoginManager shared].password;
     MKIoTCloudAccountLoginAlertView *alertView = [[MKIoTCloudAccountLoginAlertView alloc] init];
     [alertView showViewWithModel:viewModel completeBlock:^(NSString * _Nonnull account, NSString * _Nonnull password, BOOL isHome) {
         [self login:isHome username:account password:password];
