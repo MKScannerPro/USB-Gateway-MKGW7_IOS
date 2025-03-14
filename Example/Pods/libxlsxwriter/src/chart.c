@@ -4,7 +4,7 @@
  * Used in conjunction with the libxlsxwriter library.
  *
  * SPDX-License-Identifier: BSD-2-Clause
- * Copyright 2014-2024, John McNamara, jmcnamara@cpan.org.
+ * Copyright 2014-2025, John McNamara, jmcnamara@cpan.org.
  *
  */
 
@@ -480,7 +480,7 @@ _chart_axis_set_default_num_format(lxw_chart_axis *axis, char *num_format)
 }
 
 /*
- * Verify that a X/Y error bar property is support for the chart type.
+ * Verify that a X/Y error bar property is supported for the chart type.
  * All chart types, except Bar have Y error bars. Only Bar and Scatter
  * support X error bars.
  */

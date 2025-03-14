@@ -2,7 +2,7 @@
  * libxlsxwriter
  *
  * SPDX-License-Identifier: BSD-2-Clause
- * Copyright 2014-2024, John McNamara, jmcnamara@cpan.org.
+ * Copyright 2014-2025, John McNamara, jmcnamara@cpan.org.
  */
 
 /**
@@ -10,7 +10,7 @@
  *
  * @brief Common functions and defines for the libxlsxwriter library.
  *
- * <!-- Copyright 2014-2024, John McNamara, jmcnamara@cpan.org -->
+ * <!-- Copyright 2014-2025, John McNamara, jmcnamara@cpan.org -->
  *
  */
 #ifndef __LXW_COMMON_H__
@@ -106,6 +106,9 @@ typedef enum lxw_error {
 
     /** Function parameter validation error. */
     LXW_ERROR_PARAMETER_VALIDATION,
+
+    /** Function string parameter is empty. */
+    LXW_ERROR_PARAMETER_IS_EMPTY,
 
     /** Worksheet name exceeds Excel's limit of 31 characters. */
     LXW_ERROR_SHEETNAME_LENGTH_EXCEEDED,
