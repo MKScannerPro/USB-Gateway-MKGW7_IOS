@@ -100,6 +100,12 @@ NSString *const MKNetworkStatusChangedNotification = @"MKNetworkStatusChangedNot
         _reachabilityRef = NULL;
         return;
     }
+    
+    // 主动获取当前网络状态并触发回调
+    SCNetworkReachabilityFlags flags;
+    if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags)) {
+        [self handleReachabilityChange:flags];
+    }
 }
 
 #pragma mark - 网络状态回调
